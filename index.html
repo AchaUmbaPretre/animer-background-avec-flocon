@@ -7,25 +7,49 @@
   <style>
     /* Conteneur principal */
     .scene {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: #000; /* Fond noir pour le contraste */
+      background-color: #000;
+    }
+
+    /* Style du texte */
+    h1, h2 {
+      position: relative;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 10px;
+      opacity: 0; /* Commence invisible */
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 3s; /* Attends que les flocons soient visibles */
+      z-index: 10;
+    }
+
+    /* Animation pour faire apparaître le texte progressivement */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
     /* Style des flocons */
     .flake {
       position: absolute;
-      width: 20px; /* Taille de chaque "flocon" */
+      width: 20px;
       height: 20px;
-      background-image: url('./img/img.jpg'); /* Image de fond que les flocons vont former */
-      background-size: 100vw 100vh; /* Taille d'ajustement de l'image pour la scène entière */
-      opacity: 0; /* Commence transparent */
-      animation: appear .75s ease forwards; /* Animation d'apparition */
+      background-image: url('./img/img.jpg');
+      background-size: 100vw 100vh;
+      opacity: 0;
+      animation: appear 0.75s ease forwards;
+      z-index: 5;
     }
 
-    /* Animation pour faire apparaître progressivement */
+    /* Animation pour faire apparaître les flocons */
     @keyframes appear {
       to {
         opacity: 1;
@@ -34,11 +58,13 @@
   </style>
 </head>
 <body>
-  <div class="scene" id="scene"></div>
+  <div class="scene" id="scene">
+    <h1>ACHA UMBA</h1>
+  </div>
 
   <script>
     const scene = document.getElementById('scene');
-    const flakeSize = 20; // Taille de chaque "flocon" en pixels
+    const flakeSize = 20;
     const sceneWidth = window.innerWidth;
     const sceneHeight = window.innerHeight;
     const cols = Math.ceil(sceneWidth / flakeSize);
@@ -50,25 +76,19 @@
           const flake = document.createElement('div');
           flake.classList.add('flake');
 
-          // Position précise pour recréer l'image
           const posX = col * flakeSize;
           const posY = row * flakeSize;
 
-          // Position de l'image de fond pour chaque flocon
           flake.style.left = `${posX}px`;
           flake.style.top = `${posY}px`;
           flake.style.backgroundPosition = `-${posX}px -${posY}px`;
-
-          // Délai d'apparition pour chaque flocon
           flake.style.animationDelay = `${Math.random() * 3}s`;
 
-          // Ajoute le flocon dans la scène
           scene.appendChild(flake);
         }
       }
     }
 
-    // Génération des flocons pour révéler l'image
     generateFlakes();
   </script>
 </body>
