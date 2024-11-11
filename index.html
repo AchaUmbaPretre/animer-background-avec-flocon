@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation de révélation de l'image par flocons</title>
+  <style>
+    /* Conteneur principal */
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #000; /* Fond noir pour le contraste */
+    }
+
+    /* Style des flocons */
+    .flake {
+      position: absolute;
+      width: 20px; /* Taille de chaque "flocon" */
+      height: 20px;
+      background-image: url('./img/img.jpg'); /* Image de fond que les flocons vont former */
+      background-size: 100vw 100vh; /* Taille d'ajustement de l'image pour la scène entière */
+      opacity: 0; /* Commence transparent */
+      animation: appear 1s ease forwards; /* Animation d'apparition */
+    }
+
+    /* Animation pour faire apparaître progressivement */
+    @keyframes appear {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene" id="scene"></div>
+
+  <script>
+    const scene = document.getElementById('scene');
+    const flakeSize = 20; // Taille de chaque "flocon" en pixels
+    const sceneWidth = window.innerWidth;
+    const sceneHeight = window.innerHeight;
+    const cols = Math.ceil(sceneWidth / flakeSize);
+    const rows = Math.ceil(sceneHeight / flakeSize);
+
+    function generateFlakes() {
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const flake = document.createElement('div');
+          flake.classList.add('flake');
+
+          // Position précise pour recréer l'image
+          const posX = col * flakeSize;
+          const posY = row * flakeSize;
+
+          // Position de l'image de fond pour chaque flocon
+          flake.style.left = `${posX}px`;
+          flake.style.top = `${posY}px`;
+          flake.style.backgroundPosition = `-${posX}px -${posY}px`;
+
+          // Délai d'apparition pour chaque flocon
+          flake.style.animationDelay = `${Math.random() * 3}s`;
+
+          // Ajoute le flocon dans la scène
+          scene.appendChild(flake);
+        }
+      }
+    }
+
+    // Génération des flocons pour révéler l'image
+    generateFlakes();
+  </script>
+</body>
+</html>
